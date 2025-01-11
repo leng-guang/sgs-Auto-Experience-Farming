@@ -149,8 +149,8 @@ def farming_matches(times):
         template = np.array(character_img)
         template = cv2.cvtColor(template, cv2.COLOR_RGB2BGR)
 
-        cv2.imwrite("screenshot_before.png", screenshot)
-        cv2.imwrite("template_before.png", template)
+        # cv2.imwrite("screenshot_before.png", screenshot)
+        # cv2.imwrite("template_before.png", template)
 
         gamma = 2.5
         screenshot = apply_gamma_correction(screenshot, gamma)
@@ -168,8 +168,8 @@ def farming_matches(times):
         top_left = max_loc
         bottom_right = (top_left[0] + template_width, top_left[1] + template_height)
         cv2.rectangle(screenshot, top_left, bottom_right, (0, 255, 0), 2)
-        cv2.imwrite("screenshot_after.png", screenshot)
-        cv2.imwrite("template_after.png", template)
+        # cv2.imwrite("screenshot_after.png", screenshot)
+        # cv2.imwrite("template_after.png", template)
 
         # while True:
         #     try:
