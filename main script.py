@@ -64,7 +64,7 @@ def apply_gamma_correction(image, gamma):
     gamma_corrected_image = np.uint8(gamma_corrected_image * 255)
     return gamma_corrected_image
 
-def farming_matches(times):
+def farming_matches():
     while True:
         try:
             location = pa.locateCenterOnScreen(excercise1_img, region=region, confidence=0.8, grayscale=True)
@@ -74,8 +74,8 @@ def farming_matches(times):
             pa.click(location)
             print("\r已进入演练                             ")
             break
-
-    for i in range(times):
+    i = 1
+    while True:
         gamma = 3
         finded_charater = False
         while not finded_charater:
@@ -112,7 +112,7 @@ def farming_matches(times):
                     template = cv2.cvtColor(template, cv2.COLOR_RGB2BGR)
 
                     screenshot = pa.screenshot(region=(left, top, width, height))
-                    screenshot.save("pictures/screenshot.png")
+                    # screenshot.save("pictures/screenshot.png")
                     screenshot = np.array(screenshot)
                     screenshot = cv2.cvtColor(screenshot, cv2.COLOR_RGB2BGR)
                     screenshot = apply_gamma_correction(screenshot, gamma)
@@ -134,7 +134,7 @@ def farming_matches(times):
                     quit_img = resizeimg("pictures\quit.png", scale)
                     confirm_img = resizeimg("pictures\confirm.png", scale)
                     start_time = time.time()
-                    while time.time()-start_time<2:
+                    while time.time()-start_time<3:
                         try:
                             location = pa.locateCenterOnScreen(plus_img, region=region, confidence=0.8, grayscale=True)
                         except pa.ImageNotFoundException as e:
@@ -164,6 +164,7 @@ def farming_matches(times):
                                             pa.click(location)
                                             break # located confirm button
                                     else:
+                                        start_time = time.time() #refresh the colck
                                         continue
                                     break # located quit button
                             else:
@@ -173,8 +174,9 @@ def farming_matches(times):
                         print("\r无法找到\"+\"，正在返回上一步操作                 ", end='')
                         continue
                     break
-        print(f"\r已刷{i+1}次                      ")
-        if ((i+1)%1 == 0) and (i+1)>=1:
+        print(f"\r已刷{i}次                       ")
+        i += 1
+        if ((i)%10 == 0) and (i+1)>=50:
             print("正在返回大厅并检查历练值                  ")
             BackToLobby()
             spacialOffer_img = resizeimg("pictures\spacial_offer.png", scale)
@@ -218,11 +220,11 @@ def farming_matches(times):
                     location = (int(num_left), int(num_top-num_height), num_weight, num_height)
                     print(location)
                     num_img = pa.screenshot(region=location)
-                    num_img.save('num_img1.png')
+                    # num_img.save('num_img1.png')
                     num_img = num_img.convert('L')
                     threshold = 75
                     num_img = num_img.point(lambda p: p>threshold and 255)
-                    num_img.save('num_img2.png')
+                    # num_img.save('num_img2.png')
                     # num_img = np.array(num_img)
                     number = pytesseract.image_to_string(num_img)
                     print(number)
@@ -243,7 +245,7 @@ def farming_matches(times):
                     pa.click(location)
                     print("\r已进入演练                             ")
                     break
-
+            
 
 #########################################################################################################
 
@@ -300,4 +302,4 @@ excercise2_img = resizeimg("pictures\exercise2.png", scale)
 #         print("\r已进入标准场")
 #         break
 
-farming_matches(90)
+farming_matches()
