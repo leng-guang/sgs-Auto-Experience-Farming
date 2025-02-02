@@ -65,6 +65,22 @@ def apply_gamma_correction(image, gamma):
     return gamma_corrected_image
 
 def farming_matches():
+
+    # start to play
+    classical_img = resizeimg("pictures\classical.png", scale)
+    excercise1_img = resizeimg("pictures\exercise1.png", scale)
+    excercise2_img = resizeimg("pictures\exercise2.png", scale)
+
+    while True:
+        try:
+            location = pa.locateCenterOnScreen(classical_img, region=region, confidence=0.8, grayscale=True)
+        except pa.ImageNotFoundException as e:
+            print(f"\rError: Cannot find classical_image! {e}", end='')
+        else:
+            pa.click(location)
+            print("\r已进入标准场")
+            break
+    
     while True:
         try:
             location = pa.locateCenterOnScreen(excercise1_img, region=region, confidence=0.8, grayscale=True)
@@ -146,7 +162,7 @@ def farming_matches():
 
                             start_time = time.time()
                             # find quit button
-                            while time.time()-start_time<2: 
+                            while time.time()-start_time<3: 
                                 try:
                                     location = pa.locateCenterOnScreen(quit_img, region=region, confidence=0.8, grayscale=True)
                                 except pa.ImageNotFoundException as e:
@@ -155,7 +171,7 @@ def farming_matches():
                                     pa.click(location)
                                     start_time = time.time()
                                     # find confirm button
-                                    while time.time()-start_time < 2:
+                                    while time.time()-start_time < 3:
                                         try:
                                             location = pa.locateCenterOnScreen(confirm_img, region=region, confidence=0.8, grayscale=True)
                                         except pa.ImageNotFoundException as e:
@@ -176,7 +192,7 @@ def farming_matches():
                     break
         print(f"\r已刷{i}次                       ")
         i += 1
-        if ((i)%10 == 0) and (i+1)>=50:
+        if ((i-1)%10 == 0) and (i-1)>=50:
             print("正在返回大厅并检查历练值                  ")
             BackToLobby()
             spacialOffer_img = resizeimg("pictures\spacial_offer.png", scale)
@@ -270,7 +286,7 @@ while SizeCheck:
         print("\r窗口大小满足条件")
 
 # calculate the scale factor
-scale = height/934
+scale = (width-57)/1600
 print(f"窗口分辨率为：{width, height}缩放大小为{scale}")
 
 # # start game
@@ -285,21 +301,5 @@ start_img = resizeimg('pictures/start game.png', scale)
 #     print("\r已进入游戏")
 
 # BackToLobby()
-
-# start to play
-classical_img = resizeimg("pictures\classical.png", scale)
-excercise1_img = resizeimg("pictures\exercise1.png", scale)
-excercise2_img = resizeimg("pictures\exercise2.png", scale)
-# time.sleep(1)
-
-# while True:
-#     try:
-#         location = pa.locateCenterOnScreen(classical_img, region=region, confidence=0.8, grayscale=True)
-#     except pa.ImageNotFoundException as e:
-#         print(f"\rError: Cannot find classical_image! {e}", end='')
-#     else:
-#         pa.click(location)
-#         print("\r已进入标准场")
-#         break
 
 farming_matches()
