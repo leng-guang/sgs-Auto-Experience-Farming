@@ -261,7 +261,183 @@ def farming_matches():
                     pa.click(location)
                     print("\r已进入演练                             ")
                     break
-            
+
+def sign_in():
+    plus_img = resizeimg("pictures\plus.png", scale)
+    SignIn1_img = resizeimg("pictures\sign in 1.png", scale)
+    SignIn2_img = resizeimg("pictures\sign in 2.png", scale)
+    get_img= resizeimg("pictures\get.png", scale)
+    while True:
+        try:
+            location = pa.locateCenterOnScreen(plus_img, region=region, confidence=0.8, grayscale=True)
+        except pa.ImageNotFoundException as e:
+            print(f"\rError: Cannot find plus image! {e}", end='')
+        else:
+            pa.click(location)
+            break
+    time.sleep(1)
+    while True:
+        try:
+            location = pa.locateCenterOnScreen(SignIn1_img, region=region, confidence=0.8, grayscale=True)
+        except pa.ImageNotFoundException as e:
+            print(f"\rError: Cannot find sign in 1 image! {e}", end='')
+        else:
+            pa.click(location)
+            break
+    start_time = time.time()
+    while time.time()-start_time<2:
+        try:
+            location = pa.locateCenterOnScreen(SignIn2_img, region=region, confidence=0.8, grayscale=True)
+        except pa.ImageNotFoundException as e:
+            print(f"\rError: Cannot find sign in 2 image! {e}", end='')
+        else:
+            pa.click(location)
+            break
+    else:
+        print("\r今日已签到                                           ")
+
+    start_time = time.time()
+    while time.time()-start_time<2:
+        try:
+            location = pa.locateCenterOnScreen(get_img, region=region, confidence=0.8, grayscale=True)
+        except pa.ImageNotFoundException as e:
+            print(f"\rError: Cannot find get image! {e}", end='')
+        else:
+            pa.click(location)
+            start_time = time.time()
+            continue
+    else:
+        print("\r未识别到可领取的奖励                          ")
+
+    BackToLobby()
+    
+def gather_gold():
+    plus_img = resizeimg("pictures\plus.png", scale)
+    gold_img = resizeimg("pictures\gold.png", scale)
+    water_img = resizeimg("pictures\water.png", scale)
+    SmallGolds_img = resizeimg("pictures\small golds.png", scale)
+    BigGolds_img = resizeimg("pictures\\big golds.png", scale)
+    while True:
+        try:
+            location = pa.locateCenterOnScreen(plus_img, region=region, confidence=0.8, grayscale=True)
+        except pa.ImageNotFoundException as e:
+            print(f"\rError: Cannot find plus image! {e}", end='')
+        else:
+            pa.click(location)
+            break
+    time.sleep(1)
+    while True:
+        try:
+            location = pa.locateCenterOnScreen(gold_img, region=region, confidence=0.8, grayscale=True)
+        except pa.ImageNotFoundException as e:
+            print(f"\rError: Cannot find gold image! {e}", end='')
+        else:
+            pa.click(location)
+            break
+
+    start_time = time.time()
+    while time.time()-start_time<2:
+        try:
+            location = pa.locateCenterOnScreen(water_img, region=region, confidence=0.8, grayscale=True)
+        except pa.ImageNotFoundException as e:
+            print(f"\rError: Cannot find water image! {e}", end='')
+        else:
+            pa.click(location)
+            break
+    else:
+        print("\r今日已浇水                               ")
+    start_time = time.time()
+    while time.time()-start_time<2:
+        try:
+            location = pa.locateCenterOnScreen(SmallGolds_img, region=region, confidence=0.8, grayscale=True)
+        except pa.ImageNotFoundException as e:
+            print(f"\rError: Cannot find small golds image! {e}", end='')
+        else:
+            pa.click(location)
+            start_time = time.time()
+            continue
+    else:
+        print("\r未识别到可领取的小元宝                   ")
+    start_time = time.time()
+    while time.time()-start_time<2:
+        try:
+            location = pa.locateCenterOnScreen(BigGolds_img, region=region, confidence=0.8, grayscale=True)
+        except pa.ImageNotFoundException as e:
+            print(f"\rError: Cannot find big golds image! {e}", end='')
+        else:
+            pa.click(location)
+            start_time = time.time()
+            continue
+    else:
+        print("\r未识别到可领取的大元宝                       ")
+
+    BackToLobby()
+
+def reward():
+    grow_img = resizeimg("pictures\\reward\grow.png", scale)
+    get_img = resizeimg("pictures\\reward\get.png", scale)
+    chest1_img = resizeimg("pictures\\reward\chest1.png", scale)
+    chest2_img = resizeimg("pictures\\reward\chest2.png", scale)
+    chest3_img = resizeimg("pictures\\reward\chest3.png", scale)
+    chest4_img = resizeimg("pictures\\reward\chest4.png", scale)
+
+    while True:
+        try:
+            location = pa.locateCenterOnScreen(grow_img, region=region, confidence=0.8, grayscale=True)
+        except pa.ImageNotFoundException as e:
+            print(f"\rError: Cannot find grow image! {e}", end='')
+        else:
+            pa.click(location)
+            break
+    start_time = time.time()
+    while time.time()-start_time<2:
+        try:
+            location = pa.locateCenterOnScreen(get_img, region=region, confidence=0.8, grayscale=True)
+        except pa.ImageNotFoundException as e:
+            print(f"\rError: Cannot find get image! {e}", end='')
+        else:
+            pa.click(location)
+            start_time = time.time()
+            continue
+    else:
+        print("\r未识别到可领取的奖励                       ")
+
+    time.sleep(1)
+
+    while True:
+        try:
+            location = pa.locateCenterOnScreen(chest1_img, region=region, confidence=0.8, grayscale=True)
+        except pa.ImageNotFoundException as e:
+            print(f"\rError: Cannot find chest1 image! {e}", end='')
+        else:
+            pa.click(location)
+            break
+    while True:
+        try:
+            location = pa.locateCenterOnScreen(chest2_img, region=region, confidence=0.8, grayscale=True)
+        except pa.ImageNotFoundException as e:
+            print(f"\rError: Cannot find chest2 image! {e}", end='')
+        else:
+            pa.click(location)
+            break
+    while True:
+        try:
+            location = pa.locateCenterOnScreen(chest3_img, region=region, confidence=0.8, grayscale=True)
+        except pa.ImageNotFoundException as e:
+            print(f"\rError: Cannot find chest3image! {e}", end='')
+        else:
+            pa.click(location)
+            break
+    while True:
+        try:
+            location = pa.locateCenterOnScreen(chest4_img, region=region, confidence=0.8, grayscale=True)
+        except pa.ImageNotFoundException as e:
+            print(f"\rError: Cannot find chest4 image! {e}", end='')
+        else:
+            pa.click(location)
+            break
+    BackToLobby()
+
 
 #########################################################################################################
 
@@ -286,20 +462,26 @@ while SizeCheck:
         print("\r窗口大小满足条件")
 
 # calculate the scale factor
-scale = (width-57)/1600
+scale = (width)/1600
 print(f"窗口分辨率为：{width, height}缩放大小为{scale}")
 
 # # start game
 region = (left, top, width, height)
 start_img = resizeimg('pictures/start game.png', scale)
-# try:
-#     location = pa.locateCenterOnScreen(start_img, region=region, confidence=0.8, grayscale=True)
-# except pa.ImageNotFoundException as e:
-#     print(f"Error: Cannot find start_image! {e}", end='')
-# else:
-#     pa.click(location)
-#     print("\r已进入游戏")
+try:
+    location = pa.locateCenterOnScreen(start_img, region=region, confidence=0.8, grayscale=True)
+except pa.ImageNotFoundException as e:
+    print(f"Error: Cannot find start_image! {e}", end='')
+else:
+    pa.click(location)
+    print("\r已进入游戏")
 
-# BackToLobby()
+BackToLobby()
 
-farming_matches()
+sign_in()
+
+gather_gold()
+
+# farming_matches()
+
+reward()
