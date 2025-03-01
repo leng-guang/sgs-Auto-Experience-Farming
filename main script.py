@@ -25,7 +25,8 @@ def BackToLobby():
     classical_img = resizeimg("pictures\classical.png", scale)
     # lobby_img = resizeimg("pictures/lobby.png", scale)
     returned = False
-    while True:
+    start_time = time.time()
+    while time.time()-start_time<3:
         try:
             ReturnLocation = pa.locateCenterOnScreen(return_img, region=region, confidence=0.8) #press return button
         except pa.ImageNotFoundException as e:
@@ -64,7 +65,7 @@ def apply_gamma_correction(image, gamma):
     gamma_corrected_image = np.uint8(gamma_corrected_image * 255)
     return gamma_corrected_image
 
-def farming_matches():
+def farming_matches(basic_times=50, times=10):
 
     # start to play
     classical_img = resizeimg("pictures\classical.png", scale)
@@ -192,7 +193,7 @@ def farming_matches():
                     break
         print(f"\r已刷{i}次                       ")
         i += 1
-        if ((i-1)%10 == 0) and (i-1)>=50:
+        if ((i-1)%times == 0) and (i-1)>=basic_times:
             print("正在返回大厅并检查历练值                  ")
             BackToLobby()
             spacialOffer_img = resizeimg("pictures\spacial_offer.png", scale)
@@ -226,7 +227,7 @@ def farming_matches():
                     pa.click(location)
                     break # located spacial offer button
             
-            while True:
+            while True: # OCR
                 try:
                     location = pa.locateOnScreen(boost_img, region=region, confidence=0.8, grayscale=True)
                 except pa.ImageNotFoundException as e:
@@ -297,7 +298,7 @@ def sign_in():
         print("\r今日已签到                                           ")
 
     start_time = time.time()
-    while time.time()-start_time<2:
+    while time.time()-start_time<3:
         try:
             location = pa.locateCenterOnScreen(get_img, region=region, confidence=0.8, grayscale=True)
         except pa.ImageNotFoundException as e:
@@ -336,7 +337,7 @@ def gather_gold():
             break
 
     start_time = time.time()
-    while time.time()-start_time<2:
+    while time.time()-start_time<3:
         try:
             location = pa.locateCenterOnScreen(water_img, region=region, confidence=0.8, grayscale=True)
         except pa.ImageNotFoundException as e:
@@ -347,7 +348,7 @@ def gather_gold():
     else:
         print("\r今日已浇水                               ")
     start_time = time.time()
-    while time.time()-start_time<2:
+    while time.time()-start_time<3:
         try:
             location = pa.locateCenterOnScreen(SmallGolds_img, region=region, confidence=0.8, grayscale=True)
         except pa.ImageNotFoundException as e:
@@ -398,6 +399,7 @@ def reward():
         else:
             pa.click(location)
             start_time = time.time()
+            time.sleep(0.5)
             continue
     else:
         print("\r未识别到可领取的奖励                       ")
@@ -438,7 +440,81 @@ def reward():
             break
     BackToLobby()
 
+def recruit():
+    shop_img = resizeimg("pictures\\recruit\shop.png", scale)
+    get_hero_img = resizeimg("pictures\\recruit\get_hero.png", scale)
+    get_skin_img = resizeimg("pictures\\recruit\get_skin.png", scale)
+    skin_img = resizeimg("pictures\\recruit\skin.png", scale)
+    cancel_img = resizeimg("pictures\\recruit\cancel.png", scale)
+    print("正在尝试抽招募令和雁翎甲")
+    while True:
+        try:
+            location = pa.locateCenterOnScreen(shop_img, region=region, confidence=0.8, grayscale=True)
+        except pa.ImageNotFoundException as e:
+            print(f"\rError: Cannot find shop image! {e}", end='')
+        else:
+            pa.click(location)
+            break
+    time.sleep(1)
+    while True:
+        try:
+            location = pa.locateCenterOnScreen(get_hero_img, region=region, confidence=0.8, grayscale=True)
+        except pa.ImageNotFoundException as e:
+            print(f"\rError: Cannot find get_hero image! {e}", end='')
+        else:
+            pa.click(location)
+            break
 
+    start_time = time.time()
+    while time.time()-start_time<2:
+        try:
+            location = pa.locateCenterOnScreen(cancel_img, region=region, confidence=0.8, grayscale=True)
+        except pa.ImageNotFoundException as e:
+            print(f"\rError: Cannot find cancel image! {e}", end='')
+        else:
+            print("无可用招募令")
+            pa.click(location)
+            break
+
+    BackToLobby()
+
+    while True:
+        try:
+            location = pa.locateCenterOnScreen(shop_img, region=region, confidence=0.8, grayscale=True)
+        except pa.ImageNotFoundException as e:
+            print(f"\rError: Cannot find shop image! {e}", end='')
+        else:
+            pa.click(location)
+            break
+    time.sleep(1)
+    while True:
+        try:
+            location = pa.locateCenterOnScreen(skin_img, region=region, confidence=0.8, grayscale=True)
+        except pa.ImageNotFoundException as e:
+            print(f"\rError: Cannot find skin image! {e}", end='')
+        else:
+            pa.click(location)
+            break
+    time.sleep(1)
+    while True:
+        try:
+            location = pa.locateCenterOnScreen(get_skin_img, region=region, confidence=0.8, grayscale=True)
+        except pa.ImageNotFoundException as e:
+            print(f"\rError: Cannot find get_skin image! {e}", end='')
+        else:
+            pa.click(location)
+            break
+    start_time = time.time()
+    while time.time()-start_time<2:
+        try:
+            location = pa.locateCenterOnScreen(cancel_img, region=region, confidence=0.8, grayscale=True)
+        except pa.ImageNotFoundException as e:
+            print(f"\rError: Cannot find cancel image! {e}", end='')
+        else:
+            print("无可用雁翎甲")
+            pa.click(location)
+            break
+    BackToLobby()
 #########################################################################################################
 
 print("程序已开始运行，请将模拟器调至屏幕最上方")
@@ -466,7 +542,7 @@ scale = (width)/1600
 print(f"窗口分辨率为：{width, height}缩放大小为{scale}")
 
 # # start game
-region = (left, top, width, height)
+region = (left, top+34, width, height)
 start_img = resizeimg('pictures/start game.png', scale)
 try:
     location = pa.locateCenterOnScreen(start_img, region=region, confidence=0.8, grayscale=True)
@@ -482,6 +558,8 @@ sign_in()
 
 gather_gold()
 
-# farming_matches()
+farming_matches(times=10, basic_times=50)
+
+recruit()
 
 reward()
